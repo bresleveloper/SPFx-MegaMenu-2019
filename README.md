@@ -1,6 +1,12 @@
 # sp-fx-mega-2019
 
+This is a dup for the (365)[https://github.com/bresleveloper/SPFx-Smart_MegaMenu] version, which works great!
 
+For some reason some things causes error like definig variables or promises as `[]`, or having the `SP` var not defined in the Component const.
+
+Also not recognizing the `SP` namespace.
+
+So this one is with some adjustments.
 
 ## Add Url to Terms
 
