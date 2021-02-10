@@ -205,7 +205,7 @@ export default class SpFxMega2019ApplicationCustomizer
   }
 
   //public getTerms():Promise<SP.Taxonomy.TermCollection>{
-    public getTerms():Promise<any>{
+  public getTerms():Promise<any>{
     console.log('SmartMegaMenu - getNavigationTerms')
     //let myPromise = new Promise<SP.Taxonomy.TermCollection>((resolve, reject) => {
     let myPromise = new Promise<any>((resolve, reject) => {
