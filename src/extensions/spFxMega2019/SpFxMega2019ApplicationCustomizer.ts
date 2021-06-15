@@ -124,17 +124,30 @@ export default class SpFxMega2019ApplicationCustomizer
     let thLevelTemplate = `<a class=${styles.thLevelA} href="#HREF#"><li class=${styles.thLevel}>#NAME#</li></a>`;
     for(let i=0;i<bench.length;i++){
       inner+=`<div class=${styles.wrapDiv} onmouseover="this.lastChild.style.visibility='visible';" onmouseleave="this.lastChild.style.visibility='hidden';">`;
+      
+      let outerLink = "#"
       if(bench[i].localCustomProperties["_Sys_Nav_SimpleLinkUrl"]){
-          inner+=fLeveltemplate.replace("#HREF#",bench[i].localCustomProperties["_Sys_Nav_SimpleLinkUrl"]).replace("#NAME#",bench[i].title);
+          //inner+=fLeveltemplate.replace("#HREF#",bench[i].localCustomProperties["_Sys_Nav_SimpleLinkUrl"]).replace("#NAME#",bench[i].title);
+          outerLink = bench[i].localCustomProperties["_Sys_Nav_SimpleLinkUrl"]
       }
       else{
         if(bench[i].url){
-          inner+=fLeveltemplate.replace("#HREF#",bench[i].url).replace("#NAME#",bench[i].title);
+          //inner+=fLeveltemplate.replace("#HREF#",bench[i].url).replace("#NAME#",bench[i].title);
+          outerLink = bench[i].url
         }
         else{
-          inner+=fLeveltemplate.replace("#NAME#",bench[i].title).replace("#HREF#","#");
+          //inner+=fLeveltemplate.replace("#NAME#",bench[i].title).replace("#HREF#","#");
         }
       }
+
+      let renderedOuterItem = fLeveltemplate.replace("#NAME#",bench[i].title).replace("#HREF#",outerLink);
+      //test if same page
+      if (outerLink.toLowerCase() == currentPageUrl) {
+        renderedOuterItem = renderedOuterItem.replace("#CLASS#", styles.Active)
+      }
+      inner += renderedOuterItem
+ 
+
       inner+=`<div class ="${styles.openDiv}" class="${String(i)}">`;
       for(let j=0;j<bench[i]['children'].length;j++){
         let subench = bench[i]['children'][j];
@@ -148,13 +161,13 @@ export default class SpFxMega2019ApplicationCustomizer
         }
 
         //inner+=sLevelTemplate.replace("#NAME#",subench.title).replace("#MORE#",thLevel).replace("#HREF#",sHref);
-        let rendered = sLevelTemplate.replace("#NAME#",subench.title).replace("#MORE#",thLevel).replace("#HREF#",sHref);
+        let renderedInnerItem = sLevelTemplate.replace("#NAME#",subench.title).replace("#MORE#",thLevel).replace("#HREF#",sHref);
 
         //test if same page
         if (sHref.toLowerCase() == currentPageUrl) {
-          rendered = rendered.replace("#CLASS#", "Active")
+          renderedInnerItem = renderedInnerItem.replace("#CLASS#", "Active")
         }
-        inner += rendered
+        inner += renderedInnerItem
 
         thLevel=``;
       }
