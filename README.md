@@ -52,7 +52,7 @@ solution is to create file `npm-shrinkwrap.json` at top level and write inside
   }
 }
 ```
-and run `npm i` again, then gulp build will work
+and run `npm i` again, then gulp build will work (and if error - `npm rebuild node-sass`)
 
 
 
