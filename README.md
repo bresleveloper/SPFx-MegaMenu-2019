@@ -50,7 +50,8 @@ solution is to create file `npm-shrinkwrap.json` at top level and write inside
         "version": "4.2.2"
      }
   }
-}```
+}
+```
 and run `npm i` again, then gulp build will work
 
 
