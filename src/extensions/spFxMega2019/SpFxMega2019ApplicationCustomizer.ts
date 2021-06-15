@@ -113,8 +113,10 @@ export default class SpFxMega2019ApplicationCustomizer
     window['bench']=bench;
     let inner:any = ``;
     let thLevel:any = ``;
-    let fLeveltemplate = `<span class="ms-HorizontalNavItem ${styles.topNavSpan}" data-automationid="HorizontalNav-link">
-                      <a class="#CLASS# ms-HorizontalNavItem-link is-not-selected ${styles.PermanentA}" href=#HREF# onmouseover="">
+    let currentPageUrl = location.href.split("?")[0].toLowerCase()
+
+    let fLeveltemplate = `<span class="#CLASS# ms-HorizontalNavItem ${styles.topNavSpan}" data-automationid="HorizontalNav-link">
+                      <a class="ms-HorizontalNavItem-link is-not-selected ${styles.PermanentA}" href=#HREF# onmouseover="">
                         #NAME#
                       </a>
                     </span>`;
@@ -144,7 +146,16 @@ export default class SpFxMega2019ApplicationCustomizer
             thLevel+=thLevelTemplate.replace("#NAME#",subsubench.title).replace("#HREF#",tHref);
           }
         }
-        inner+=sLevelTemplate.replace("#NAME#",subench.title).replace("#MORE#",thLevel).replace("#HREF#",sHref);
+
+        //inner+=sLevelTemplate.replace("#NAME#",subench.title).replace("#MORE#",thLevel).replace("#HREF#",sHref);
+        let rendered = sLevelTemplate.replace("#NAME#",subench.title).replace("#MORE#",thLevel).replace("#HREF#",sHref);
+
+        //test if same page
+        if (sHref.toLowerCase() == currentPageUrl) {
+          rendered = rendered.replace("#CLASS#", "Active")
+        }
+        inner += rendered
+
         thLevel=``;
       }
         inner+=`</div>`;
@@ -159,8 +170,10 @@ export default class SpFxMega2019ApplicationCustomizer
                     ${inner}
                    </div>
                  </div>`;
-      }
+
+      //set activated
     }
+  }
 
   public loadScripts():Promise<void>{
     console.log('SmartMegaMenu - loadScripts')
@@ -360,6 +373,7 @@ export default class SpFxMega2019ApplicationCustomizer
 
     return tree;
   }
+
   public getListItems(listname:string): Promise<any> {
     let myPromise = new Promise<any>((resolve) => {
     console.log('asking list items for listname: ', listname);

@@ -34,3 +34,24 @@ Your MUST
 `gulp build`
 `gulp bundle --ship`
 `gulp package-solution --ship`
+
+or all together
+
+gulp build; gulp bundle --ship; gulp package-solution --ship
+
+
+## Adaptaion for Node v14.17.0
+`gulp build` will result with `ReferenceError: primordials is not defined`
+
+solution is to create file `npm-shrinkwrap.json` at top level and write inside
+```{
+  "dependencies": {
+    "graceful-fs": {
+        "version": "4.2.2"
+     }
+  }
+}```
+and run `npm i` again, then gulp build will work
+
+
+
