@@ -113,17 +113,21 @@ export default class SpFxMega2019ApplicationCustomizer
     window['bench']=bench;
     let inner:any = ``;
     let thLevel:any = ``;
-    let currentPageUrl = location.href.split("?")[0].toLowerCase()
+    let currentPageUrl = decodeURI(location.href.split("?")[0].toLowerCase())
 
     let fLeveltemplate = `<span class="#CLASS# ms-HorizontalNavItem ${styles.topNavSpan}" data-automationid="HorizontalNav-link">
-                      <a class="ms-HorizontalNavItem-link is-not-selected ${styles.PermanentA}" href=#HREF# onmouseover="">
+                      <a class="ms-HorizontalNavItem-link is-not-selected ${styles.PermanentA}" href=#HREF# >
                         #NAME#
                       </a>
                     </span>`;
     let sLevelTemplate = `<ul><a class=${styles.sLevelA} href="#HREF#"><li class=${styles.sLevel}>#NAME#</li></a>#MORE#</ul>`;
     let thLevelTemplate = `<a class=${styles.thLevelA} href="#HREF#"><li class=${styles.thLevel}>#NAME#</li></a>`;
+    
+    
     for(let i=0;i<bench.length;i++){
-      inner+=`<div class=${styles.wrapDiv} onmouseover="this.lastChild.style.visibility='visible';" onmouseleave="this.lastChild.style.visibility='hidden';">`;
+      //inner+=`<div class=${styles.wrapDiv} onmouseover="this.lastChild.style.visibility='visible';" onmouseleave="this.lastChild.style.visibility='hidden';">`;
+      //inner+=`<div class=${styles.wrapDiv} onmouseover="mega_onmouseover(this)" onmouseleave="mega_onmouseleave(this)">`;
+      inner+=`<div class=${styles.wrapDiv}>`;
       
       let outerLink = "#"
       if(bench[i].localCustomProperties["_Sys_Nav_SimpleLinkUrl"]){
@@ -176,15 +180,50 @@ export default class SpFxMega2019ApplicationCustomizer
     }
 
 
-     let topPlaceholder: PlaceholderContent = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top);
-     if (topPlaceholder) {
-       topPlaceholder.domElement.innerHTML = `<div class="${styles.app}">
-                   <div class= "${styles.header}">
-                    ${inner}
-                   </div>
-                 </div>`;
+    let topPlaceholder: PlaceholderContent = this.context.placeholderProvider.tryCreateContent(PlaceholderName.Top);
+    if (topPlaceholder) {
+      let siteColUrl= this.context.pageContext.site.absoluteUrl;
 
-      //set activated
+      topPlaceholder.domElement.innerHTML = `
+        <div class="${styles.app}">
+            <div class= "${styles.header}">
+              ${inner}
+              <div id="sideMegaLinks" style="margin-right: auto;">
+                <a href="http://search.maman.iai">
+                  <img style="height: 100%;" src="${siteColUrl}/SiteAssets/icon-search.png"/>
+                </a>
+                <a href="http://phbn01.maman.iai/phbn01/index.html#/search">
+                  <img style="height: 100%;" src="${siteColUrl}/SiteAssets/icon-phone.png"/>
+                </a>
+              </div>
+            </div>
+          </div>`;
+
+      document.querySelectorAll(`.${styles.wrapDiv}`).forEach(d => {
+        let c = d.lastChild as HTMLElement
+        d.addEventListener("mouseover", ()=> c.style.visibility='visible' )
+        d.addEventListener("mouseleave", ()=> c.style.visibility='hidden' )
+      })
+
+      setTimeout(()=>{
+        window['xOnLocationChangeFunctions'].push(()=>{
+          console.log("xOnLocationChangeFunctions - mega 2019, set Active");
+          
+          let x = document.querySelector(`.${styles.Active}`) as HTMLElement
+          if (x) {
+            x.classList.remove(styles.Active)
+          }
+
+          let currentPageUrl = decodeURI(location.href.split("?")[0].toLowerCase())
+
+          document.querySelectorAll(`.${styles.topNavSpan}`).forEach(s =>{
+            let u = decodeURI(s.querySelector("a").getAttribute("href")).toLowerCase()
+            if (u == currentPageUrl) {
+              s.classList.add(styles.Active)
+            }
+          })
+        })
+      }, 750)
     }
   }
 
