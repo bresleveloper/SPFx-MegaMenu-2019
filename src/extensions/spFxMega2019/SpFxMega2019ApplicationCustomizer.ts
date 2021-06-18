@@ -188,12 +188,12 @@ export default class SpFxMega2019ApplicationCustomizer
         <div class="${styles.app}">
             <div class= "${styles.header}">
               ${inner}
-              <div id="sideMegaLinks" style="margin-right: auto;">
+              <div id="sideMegaLinks" style="margin-right: auto;padding-left: 35px;">
                 <a href="http://search.maman.iai">
-                  <img style="height: 100%;" src="${siteColUrl}/SiteAssets/icon-search.png"/>
+                  <img style="height: 90%;" src="${siteColUrl}/SiteAssets/icon-search.png"/>
                 </a>
                 <a href="http://phbn01.maman.iai/phbn01/index.html#/search">
-                  <img style="height: 100%;" src="${siteColUrl}/SiteAssets/icon-phone.png"/>
+                  <img style="height: 90%;" src="${siteColUrl}/SiteAssets/icon-phone.png"/>
                 </a>
               </div>
             </div>
