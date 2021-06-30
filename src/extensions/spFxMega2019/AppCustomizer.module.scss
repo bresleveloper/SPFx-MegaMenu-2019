@@ -1,7 +1,11 @@
-.app {
-  direction: rtl; /*dont forget - it shold be by table value*/
+
+.app.shadow {
   box-shadow: 2px 2px 2px #e8e8e8;
   box-shadow: 0px 2px 7px 5px #cacaca80;
+}
+
+.app {
+  direction: rtl; /*dont forget - it shold be by table value*/
 
   a {
     /*color: rgb(113, 113, 113);*/
@@ -14,6 +18,7 @@
     padding: 0px 180px;*/
     font-weight: bold;
     justify-content: flex-start;
+    align-items: center;
 
     max-width: 86%;
     margin: auto;
@@ -22,9 +27,11 @@
       display: block;
       max-width: 120px;
       z-index: 1;
+      white-space: nowrap;  
 
       .openDiv {
-        padding: 0px 240px 0 240px;
+        /*padding: 0px 240px 0 240px;*/
+        padding: 0 7%;
         right: 0px;
         visibility: hidden;
         position: absolute;

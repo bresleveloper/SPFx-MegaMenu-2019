@@ -3,7 +3,7 @@
   "solution": {
     "name": "sp-fx-mega-2019-client-side-solution",
     "id": "bac7d96a-08f7-4d77-9d4a-c0c5bcf4bfac",
-    "version": "1.0.0.3",
+    "version": "1.0.1.1",
     "includeClientSideAssets": true,
     "skipFeatureDeployment": true,
     "features": [

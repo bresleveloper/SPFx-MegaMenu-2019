@@ -113,7 +113,10 @@ export default class SpFxMega2019ApplicationCustomizer
     window['bench']=bench;
     let inner:any = ``;
     let thLevel:any = ``;
-    let currentPageUrl = decodeURI(location.href.split("?")[0].toLowerCase())
+    let currentPageUrl = decodeURI(location.href
+                                      .split("?")[0]
+                                      .split("#")[0]
+                                      .toLowerCase())
 
     let fLeveltemplate = `<span class="#CLASS# ms-HorizontalNavItem ${styles.topNavSpan}" data-automationid="HorizontalNav-link">
                       <a class="ms-HorizontalNavItem-link is-not-selected ${styles.PermanentA}" href=#HREF# >
@@ -127,7 +130,19 @@ export default class SpFxMega2019ApplicationCustomizer
     for(let i=0;i<bench.length;i++){
       //inner+=`<div class=${styles.wrapDiv} onmouseover="this.lastChild.style.visibility='visible';" onmouseleave="this.lastChild.style.visibility='hidden';">`;
       //inner+=`<div class=${styles.wrapDiv} onmouseover="mega_onmouseover(this)" onmouseleave="mega_onmouseleave(this)">`;
-      inner+=`<div class=${styles.wrapDiv}>`;
+      let wrapDivStyle = ' style="'
+      let localPorpsKeys = Object.keys(bench[i].localCustomProperties)
+      for (let m = 0; m < localPorpsKeys.length; m++) {
+        const k = localPorpsKeys[m];
+        if (k == "_Sys_Nav_SimpleLinkUrl" || k == "url") {
+          continue
+        }
+        let v = bench[i].localCustomProperties[k]
+        wrapDivStyle += `${k}:${v};`
+      }
+      wrapDivStyle += '" '
+      
+      inner+=`<div ${wrapDivStyle} class=${styles.wrapDiv}>`;
       
       let outerLink = "#"
       if(bench[i].localCustomProperties["_Sys_Nav_SimpleLinkUrl"]){
@@ -185,10 +200,10 @@ export default class SpFxMega2019ApplicationCustomizer
       let siteColUrl= this.context.pageContext.site.absoluteUrl;
 
       topPlaceholder.domElement.innerHTML = `
-        <div class="${styles.app}">
+        <div class="${styles.app} ${styles.shadow} ">
             <div class= "${styles.header}">
               ${inner}
-              <div id="sideMegaLinks" style="margin-right: auto;padding-left: 35px;">
+              <div id="sideMegaLinks" style="align-self: normal;margin-right: auto;padding-left: 55px;">
                 <a href="http://search.maman.iai">
                   <img style="height: 90%;" src="${siteColUrl}/SiteAssets/icon-search.png"/>
                 </a>
@@ -201,14 +216,32 @@ export default class SpFxMega2019ApplicationCustomizer
 
       document.querySelectorAll(`.${styles.wrapDiv}`).forEach(d => {
         let c = d.lastChild as HTMLElement
-        d.addEventListener("mouseover", ()=> c.style.visibility='visible' )
-        d.addEventListener("mouseleave", ()=> c.style.visibility='hidden' )
+        if (c.childElementCount > 0) {
+          d.addEventListener("mouseover", ()=> c.style.visibility='visible' )
+          d.addEventListener("mouseleave", ()=> c.style.visibility='hidden' )
+        }
       })
 
+      //toggle shadow
+      console.log("xOnLocationChangeFunctions - mega 2019, toggle shadow");
+
+      let region = document.querySelector("[data-is-scrollable]") as HTMLElement
+      let app = document.querySelector(`.${styles.app}`) as HTMLElement
+      console.log('region, app', region, app);
+      
+      region.onscroll = ()=> {
+        region.scrollTop == 0 ? 
+          app.classList.add(styles.shadow) : 
+          app.classList.remove(styles.shadow);
+      }
+
       setTimeout(()=>{
+        console.log("setTimeout xOnLocationChangeFunctions - mega 2019" );
+
         window['xOnLocationChangeFunctions'].push(()=>{
-          console.log("xOnLocationChangeFunctions - mega 2019, set Active");
           
+          console.log("xOnLocationChangeFunctions - mega 2019, set Active");
+          //set active
           let x = document.querySelector(`.${styles.Active}`) as HTMLElement
           if (x) {
             x.classList.remove(styles.Active)
