@@ -199,11 +199,12 @@ export default class SpFxMega2019ApplicationCustomizer
     if (topPlaceholder) {
       let siteColUrl= this.context.pageContext.site.absoluteUrl;
 
+      let sideLinksPadding = `padding-left: ${window.innerWidth > 1800 ? "70" : "50"}px; `
       topPlaceholder.domElement.innerHTML = `
         <div class="${styles.app} ${styles.shadow} ">
             <div class= "${styles.header}">
               ${inner}
-              <div id="sideMegaLinks" style="align-self: normal;margin-right: auto;padding-left: 55px;">
+              <div id="sideMegaLinks" style="align-self: normal;margin-right: auto;${sideLinksPadding}">
                 <a href="http://search.maman.iai">
                   <img style="height: 90%;" src="${siteColUrl}/SiteAssets/icon-search.png"/>
                 </a>

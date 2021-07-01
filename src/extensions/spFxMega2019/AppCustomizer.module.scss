@@ -35,8 +35,8 @@
         right: 0px;
         visibility: hidden;
         position: absolute;
-        min-height: 200px;
-        /*background-color: rgba(255, 255, 255, 0.98);*/
+        /*min-height: 200px;
+        background-color: rgba(255, 255, 255, 0.98);*/
         background-color:#fffffff0;
         z-index: 9999;
         box-shadow: 2px 2px 2px #e8e8e8;
@@ -47,9 +47,9 @@
           text-decoration: none;
         }
         ul {
-          padding-left: 60px;
+          padding-left: 50px;
           padding-right: 10px;
-          min-height: 110px;
+          /*min-height: 110px;*/
         }
         .sLevel {
           color: rgb(113, 113, 113);
